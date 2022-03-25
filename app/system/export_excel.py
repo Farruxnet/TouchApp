@@ -1,4 +1,4 @@
-from TestApp.models import Users, Attendance
+from app.models import Users, Attendance
 import xlsxwriter
 import pandas as pd
 import datetime

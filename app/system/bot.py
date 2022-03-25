@@ -1,5 +1,5 @@
 import telebot
-from TestApp.models import *
+from app.models import *
 from string import ascii_lowercase
 import itertools
 
