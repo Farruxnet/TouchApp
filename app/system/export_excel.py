@@ -34,12 +34,7 @@ def excel(key):
             work.append(int(i.join_date.strftime("%H")) - int(i.left_date.strftime("%H")))
         else:
             work.append(0)
-    print(work)
-
-    df = pd.DataFrame(
-        # users,
-        # index=users_id,
-    )
+    df = pd.DataFrame()
     writer = pd.ExcelWriter(name, engine='xlsxwriter')
     workbook=writer.book
     date_bg = workbook.add_format({"border": 6, 'bold': True, "bg_color": "#daf013"})
@@ -84,7 +79,14 @@ def excel(key):
             else:
                 ws.write(f"{q.split(' ')[1]}{users.index(user_data.user.full_name)+3}", "-")
 
-            ws.write(f"{q.split(' ')[2]}{users.index(user_data.user.full_name)+3}", work[z])
+            # ws.write(f"{q.split(' ')[2]}{users.index(user_data.user.full_name)+3}", work[z])
+            print((datetime.datetime.strptime(user_data.join_date.strftime("%H"), "%H") - datetime.datetime.strptime(user_data.left_date.strftime("%H"), "%H")))
+            sumH = abs(int(user_data.join_date.strftime("%H")) - int(user_data.left_date.strftime("%H")))
+            sumM = abs(int(user_data.join_date.strftime("%M")) - int(user_data.left_date.strftime("%M")))
+            ws.write(
+                f"{q.split(' ')[2]}{users.index(user_data.user.full_name)+3}",
+                f"{sumH}.{sumM}"
+            )
 
 
     writer.save()
