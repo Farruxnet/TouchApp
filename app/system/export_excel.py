@@ -80,9 +80,14 @@ def excel(key):
                 ws.write(f"{q.split(' ')[1]}{users.index(user_data.user.full_name)+3}", "-")
 
             # ws.write(f"{q.split(' ')[2]}{users.index(user_data.user.full_name)+3}", work[z])
-            print((datetime.datetime.strptime(user_data.join_date.strftime("%H"), "%H") - datetime.datetime.strptime(user_data.left_date.strftime("%H"), "%H")))
-            sumH = abs(int(user_data.join_date.strftime("%H")) - int(user_data.left_date.strftime("%H")))
-            sumM = abs(int(user_data.join_date.strftime("%M")) - int(user_data.left_date.strftime("%M")))
+            # print((datetime.datetime.strptime(user_data.join_date.strftime("%H"), "%H") - datetime.datetime.strptime(user_data.left_date.strftime("%H"), "%H")))
+            try:
+                sumH = abs(int(user_data.join_date.strftime("%H")) - int(user_data.left_date.strftime("%H")))
+                sumM = abs(int(user_data.join_date.strftime("%M")) - int(user_data.left_date.strftime("%M")))
+            except Exception as e:
+                sumH = 0
+                sumM = 0
+
             ws.write(
                 f"{q.split(' ')[2]}{users.index(user_data.user.full_name)+3}",
                 f"{sumH}.{sumM}"
