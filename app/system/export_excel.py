@@ -71,19 +71,22 @@ def excel(key):
         ws.write(f"{q.split(' ')[2]}2", 'ISHLADI', work_bg)
         for user_data, z in zip(da, range(da.count())):
             if user_data.join_date:
-                ws.write(f"{q.split(' ')[0]}{users.index(user_data.user.full_name)+3}", user_data.join_date.strftime("%H:%M:%S"))
+                ws.write(f"{q.split(' ')[0]}{users.index(user_data.user.full_name)+3}", user_data.join_date.strftime("%H:%M"))
             else:
                 ws.write(f"{q.split(' ')[0]}{users.index(user_data.user.full_name)+3}", "-")
             if user_data.left_date:
-                ws.write(f"{q.split(' ')[1]}{users.index(user_data.user.full_name)+3}", user_data.left_date.strftime("%H:%M:%S"))
+                ws.write(f"{q.split(' ')[1]}{users.index(user_data.user.full_name)+3}", user_data.left_date.strftime("%H:%M"))
             else:
                 ws.write(f"{q.split(' ')[1]}{users.index(user_data.user.full_name)+3}", "-")
 
             # ws.write(f"{q.split(' ')[2]}{users.index(user_data.user.full_name)+3}", work[z])
             # print((datetime.datetime.strptime(user_data.join_date.strftime("%H"), "%H") - datetime.datetime.strptime(user_data.left_date.strftime("%H"), "%H")))
             try:
-                sumH = abs(int(user_data.join_date.strftime("%H")) - int(user_data.left_date.strftime("%H")))
-                sumM = abs(int(user_data.join_date.strftime("%M")) - int(user_data.left_date.strftime("%M")))
+                work_time = datetime.datetime.strptime(user_data.left_date.strftime("%H:%M"), "%H:%M")-datetime.datetime.strptime(user_data.join_date.strftime("%H:%M"), "%H:%M")
+                sumH = datetime.datetime.strptime(str(work_time), "%H:%M:%S").hour
+                sumM = datetime.datetime.strptime(str(work_time), "%H:%M:%S").minute
+                # sumH = abs(int(user_data.join_date.strftime("%H")) - int(user_data.left_date.strftime("%H")))
+                # sumM = abs(int(user_data.join_date.strftime("%M")) - int(user_data.left_date.strftime("%M")))
             except Exception as e:
                 sumH = 0
                 sumM = 0
