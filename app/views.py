@@ -17,14 +17,6 @@ from string import ascii_lowercase
 import itertools
 import traceback
 
-# data.append(
-#     [
-#         i.user.user_id,
-#         i.user.full_name,
-#         i.join_date.strftime("%Y-%m-%d %H:%M:%S"),
-#         i.left_date.strftime("%Y-%m-%d %H:%M:%S")
-#     ]
-# )
 def home(request):
 
 
