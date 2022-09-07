@@ -153,6 +153,7 @@ class GetDataView(APIView):
 class UserJoin(APIView):
     renderer_classes = [JSONRenderer]
     def post(self, request):
+        from datetime import datetime
         try:
             user = Users.objects.get(company_key__key = request.data['key'], user_id=request.data['user_id'])
             company=Company.objects.get(key = request.data['key'])
@@ -164,7 +165,7 @@ class UserJoin(APIView):
                 date__year = timezone.now().year
             )
             if data.exists():
-                data.update(join_date=timezone.now())
+                data.update(join_date=datetime.now())
                 bot_send_message(
                     user_id = request.data['user_id'],
                     key = request.data['key'],
@@ -178,7 +179,7 @@ class UserJoin(APIView):
             Attendance.objects.create(
                 company = company,
                 user = user,
-                join_date = timezone.now()
+                join_date = datetime.now()
             )
             bot_send_message(
                 user_id = request.data['user_id'],
@@ -199,6 +200,7 @@ class UserJoin(APIView):
 
 class UserLeft(APIView):
     def post(self, request):
+        from datetime import datetime
         try:
             data = Attendance.objects.filter(
                 company = Company.objects.get(key = request.data['key']),
@@ -209,7 +211,7 @@ class UserLeft(APIView):
             )
             if data.exists():
                 try:
-                    data.update(left_date=timezone.now())
+                    data.update(left_date=datetime.now())
                 except Exception as e:
                     print(e)
                 bot_send_message(
