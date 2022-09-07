@@ -2,6 +2,7 @@ from app.models import Users, Attendance
 import xlsxwriter
 import pandas as pd
 import datetime
+from datetime import datetime, timedelta
 from django.conf import settings
 import random
 from . bot import *
@@ -13,13 +14,10 @@ def excel(key):
     user_join = []
     user_left = []
     work = []
-    name = f"{str(settings.BASE_DIR)}/static/file/data_{datetime.datetime.now()}_{random.randint(1, 9999)}.xlsx"
-    # name = f"output.xlsx"
+    name = f"{str(settings.BASE_DIR)}/static/file/data_{datetime.now()}_{random.randint(1, 9999)}.xlsx"
+ 
     data = Users.objects.filter(
-        company_key__key = key,
-        # date__day = datetime.datetime.now().day,
-        # date__year = datetime.datetime.now().year,
-        # date__month = datetime.datetime.now().month,
+        company_key__key = key
     )
     for i in data:
         users.append(i.full_name)
@@ -57,7 +55,7 @@ def excel(key):
         ws.write(f"C{zz+3}", dd.full_name)
     dt = 0
     for q in line():
-        date_now = datetime.datetime.now() - datetime.timedelta(days = dt)
+        date_now = datetime.now() - timedelta(days = dt)
         dt += 1
         da =  Attendance.objects.filter(
             company__key = key,
@@ -82,11 +80,10 @@ def excel(key):
             # ws.write(f"{q.split(' ')[2]}{users.index(user_data.user.full_name)+3}", work[z])
             # print((datetime.datetime.strptime(user_data.join_date.strftime("%H"), "%H") - datetime.datetime.strptime(user_data.left_date.strftime("%H"), "%H")))
             try:
-                work_time = datetime.datetime.strptime(user_data.left_date.strftime("%H:%M"), "%H:%M")-datetime.datetime.strptime(user_data.join_date.strftime("%H:%M"), "%H:%M")
-                sumH = datetime.datetime.strptime(str(work_time), "%H:%M:%S").hour
-                sumM = datetime.datetime.strptime(str(work_time), "%H:%M:%S").minute
-                # sumH = abs(int(user_data.join_date.strftime("%H")) - int(user_data.left_date.strftime("%H")))
-                # sumM = abs(int(user_data.join_date.strftime("%M")) - int(user_data.left_date.strftime("%M")))
+                work_time = datetime.strptime(user_data.left_date.strftime("%H:%M"), "%H:%M")-datetime.strptime(user_data.join_date.strftime("%H:%M"), "%H:%M")
+                sumH = datetime.strptime(str(work_time), "%H:%M:%S").hour
+                sumM = datetime.strptime(str(work_time), "%H:%M:%S").minute
+                
             except Exception as e:
                 sumH = 0
                 sumM = 0
